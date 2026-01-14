@@ -3,12 +3,39 @@ import { AuthRepository } from "./auth.repository";
 import { BadRequestException, ForbiddenException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { LoginInputDto } from "./dto/loginInput.dto";
 import * as bcrypt from 'bcrypt';
+import { CreateVoluntarioInputDto } from "./dto/createVoluntarioLogin.dto";
+import { Role } from "./enum/role.enum";
 
 @Injectable()
 export class AuthService {
 
     constructor(private readonly repository: AuthRepository,
                 private readonly jwtService: JwtService) {}
+
+    
+    async createVoluntario (dtoInput: CreateVoluntarioInputDto) {
+        const existingUser = await this.repository.findByEmail(dtoInput.email.toUpperCase());
+        if(existingUser) {
+                throw new BadRequestException('Email de usuário já cadastrado no sistema');
+        }
+        const hashedPassword = await bcrypt.hash(dtoInput.senha, 10);
+        const nomeUpper = dtoInput.nome.toUpperCase();
+        const emailUpper = dtoInput.email.toUpperCase();
+
+        const usuarioToSave = {
+                ...dtoInput,
+                nome: nomeUpper,
+                email: emailUpper,
+                senha: hashedPassword,
+        };
+
+        try {
+             return await this.repository.createVoluntario(usuarioToSave);
+        } catch {
+            throw new InternalServerErrorException('Erro no servidor');
+        }
+
+    }
     
                 
     async login(dtoInput: LoginInputDto) {
