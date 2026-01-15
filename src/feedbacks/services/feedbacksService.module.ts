@@ -5,6 +5,8 @@ import { PostFeedbackRepository } from './postFeedback/repositories/postFeedback
 import { FeedbackController } from '../controller/feedback.controller';
 import { GetUsersFeedbackService } from './getUsersFeedback/service/getUsersFeedback.service';
 import { GetUsersFeedbackRepository } from './getUsersFeedback/repositories/getUserFeedback.repository';
+import { GetMessageFeedbackService } from './getMessageFeedback/service/getMessageFeedback.service';
+import { GetMessageFeedbackRepository } from './getMessageFeedback/repository/getMessageFeedback.repository';
 
 @Module({
     imports: [DatabaseModule],
@@ -12,6 +14,8 @@ import { GetUsersFeedbackRepository } from './getUsersFeedback/repositories/getU
     providers: [PostFeedbackService,
         PostFeedbackRepository, 
         GetUsersFeedbackService, 
-        GetUsersFeedbackRepository]
+        GetUsersFeedbackRepository,
+        GetMessageFeedbackService,
+        GetMessageFeedbackRepository]
 })
 export class FeedbacksServicesModule {}
