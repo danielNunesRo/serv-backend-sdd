@@ -5,6 +5,13 @@ import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials:true,
+
+  })
+
   const config = new DocumentBuilder().setTitle('Servidor Backend - SDD UNI7').setDescription('Documentação da API dedicada ao servidor backend da Sociedade de Debates')
   .setVersion('1.0')
   .addTag('servidor')
@@ -12,7 +19,6 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-
 
   await app.listen(3000);
 }
