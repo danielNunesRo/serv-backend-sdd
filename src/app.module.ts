@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
+import { FeedbacksModule } from './feedbacks/feedbacks.module';
 
 
 @Module({
@@ -9,7 +10,8 @@ import { AuthModule } from './auth/auth.module';
       isGlobal: true, 
     }),
     DatabaseModule,
-    AuthModule],
+    AuthModule,
+    FeedbacksModule],
   controllers: [],
   providers: [],
 })
