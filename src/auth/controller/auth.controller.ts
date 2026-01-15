@@ -1,8 +1,15 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Post, Put, Req, UseGuards } from "@nestjs/common";
 import { ApiBadRequestResponse, ApiCreatedResponse, ApiForbiddenResponse, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { AuthService } from "../service/auth.service";
 import { LoginInputDto } from "../service/dto/loginInput.dto";
 import { CreateVoluntarioInputDto } from "../service/dto/createVoluntarioLogin.dto";
+import { CreateOrgInputDto } from "../service/dto/createOrgInputDto";
+import { RolesGuard } from "../service/rolesguard/roles.guard.service";
+import { Role } from "../service/enum/role.enum";
+import { Roles } from "../service/decorator/roles.decorator";
+import { JwtAuthGuard } from "../service/jwt/jwt.auth.guard";
+import { UpdateRoleInputDto } from "../service/dto/updateRoleInput.dto";
+import { RequestWithUser } from "../types/requestWithUser.type";
 
 
 
@@ -16,7 +23,7 @@ export class AuthController {
     @ApiCreatedResponse({ description: 'Usuário criado com sucesso' })
     @ApiInternalServerErrorResponse({ description: 'Erro ao criar usuário' })
     async createVoluntario(@Body() dto: CreateVoluntarioInputDto) {
-        return this.authService.createVoluntario(dto);
+        return await this.authService.createVoluntario(dto);
     }
 
     @ApiOperation({ summary: 'Logar no sistema' }) 
@@ -27,7 +34,25 @@ export class AuthController {
     @ApiBadRequestResponse({description: 'Senha incorreta.'})
     @ApiForbiddenResponse({description: 'Usuário desativado ou banido.'})
     async login(@Body() dto: LoginInputDto) {
-        return this.authService.login(dto);
+        return await this.authService.login(dto);
     }
+
+    @ApiOperation({ summary: 'Criar um novo usuario moderador ou administrador' }) 
+    @ApiCreatedResponse({ description: 'Usuário criado com sucesso' })
+    @ApiInternalServerErrorResponse({ description: 'Erro ao criar usuário' })
+    @UseGuards(JwtAuthGuard,RolesGuard)
+    @Roles(Role.ADMINISTRADOR)
+    @Post('/create-org')
+    async createOrg(@Body() dto: CreateOrgInputDto) {
+        return await this.authService.createOrg(dto);
+    }
+
+    @Put('/update-role')
+    @UseGuards(JwtAuthGuard)
+    @Roles(Role.ADMINISTRADOR)
+    async updateRole(@Body() dto: UpdateRoleInputDto, @Req() req: any) {
+        return await this.authService.updateRoleVoluntario(dto, req);
+    }
+
 
 }
