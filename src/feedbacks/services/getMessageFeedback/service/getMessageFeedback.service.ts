@@ -8,8 +8,11 @@ export class GetMessageFeedbackService {
 
     constructor(private readonly repository: GetMessageFeedbackRepository) {}
 
-    async getMessageFeedbackService(feedbackId:number):Promise<GetMessageFeedbackOutputDto> {
-        return await this.repository.getFeedbackMessages(feedbackId);
+    async getMessageFeedbackService(feedbackId:number, req: any):Promise<GetMessageFeedbackOutputDto[]> {
+        const userId = req.user.userId;
+        await this.repository.markMessagesAsRead(feedbackId,userId,);
+        
+        return await this.repository.getFeedbackMessages(feedbackId,userId);
     }
 
 }

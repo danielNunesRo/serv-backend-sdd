@@ -7,12 +7,16 @@ import { GetUsersFeedbackService } from './getUsersFeedback/service/getUsersFeed
 import { GetUsersFeedbackRepository } from './getUsersFeedback/repositories/getUserFeedback.repository';
 import { GetMessageFeedbackService } from './getMessageFeedback/service/getMessageFeedback.service';
 import { GetMessageFeedbackRepository } from './getMessageFeedback/repository/getMessageFeedback.repository';
+import { PostMessageFeedbackService } from './postMessageFeedback/service/postMessageFeedback.service';
+import { PostMessageFeedbackRepository } from './postMessageFeedback/repositories/postMessageFeedback.repository';
 
 @Module({
     imports: [DatabaseModule],
     controllers: [FeedbackController],
     providers: [PostFeedbackService,
-        PostFeedbackRepository, 
+        PostFeedbackRepository,
+        PostMessageFeedbackService,
+        PostMessageFeedbackRepository, 
         GetUsersFeedbackService, 
         GetUsersFeedbackRepository,
         GetMessageFeedbackService,

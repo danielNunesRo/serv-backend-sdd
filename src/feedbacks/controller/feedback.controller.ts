@@ -10,6 +10,8 @@ import { GetUsersFeedbackService } from "../services/getUsersFeedback/service/ge
 import { GetUserFeedbackOutputDto } from "../services/getUsersFeedback/dto/getUserFeedbackOutput.dto";
 import { GetMessageFeedbackService } from "../services/getMessageFeedback/service/getMessageFeedback.service";
 import { GetMessageFeedbackOutputDto } from "../services/getMessageFeedback/dto/getMessageFeedbackOutput.dto";
+import { PostMessageFeedbackService } from "../services/postMessageFeedback/service/postMessageFeedback.service";
+import { PostMessageFeedbackOutputDto } from "../services/postMessageFeedback/dto/postMessageFeedbackOutput.dto";
 
 @ApiTags('feedbacks')
 @UseGuards(JwtAuthGuard,RolesGuard) 
@@ -18,16 +20,17 @@ export class FeedbackController {
 
      constructor(private readonly postFeedbackService: PostFeedbackService, 
                 private readonly getUsersFeedbackService: GetUsersFeedbackService,
-                private readonly getMessageFeedbackService: GetMessageFeedbackService) {}
+                private readonly getMessageFeedbackService: GetMessageFeedbackService,
+                private readonly postMessageFeedbackService: PostMessageFeedbackService) {}
 
     
     
     @Get('/:id/messages') 
     @Roles(Role.ADMINISTRADOR, Role.MODERADOR, Role.COMUM)
-    @ApiProperty({description: 'Recupera uma mensagem a partir do ID do Feedback'})
+    @ApiProperty({description: 'Recupera mensagens a partir do ID do Feedback'})
     @ApiParam({ name: 'id', description: 'ID do feedback', type: Number })
-    async getMessageFeedback(@Param('id') feedbackId: number):Promise<GetMessageFeedbackOutputDto> {
-      return await this.getMessageFeedbackService.getMessageFeedbackService(feedbackId);
+    async getMessageFeedback(@Param('id') feedbackId: number, @Req() req: any):Promise<GetMessageFeedbackOutputDto[]> {
+      return await this.getMessageFeedbackService.getMessageFeedbackService(feedbackId, req);
     }
 
 
@@ -42,8 +45,18 @@ export class FeedbackController {
     @Roles(Role.ADMINISTRADOR, Role.MODERADOR)
     @ApiProperty({description: 'Adm posta feedback para os usuarios'})
     async postFeedback(@Body() dto: CreateFeedbackDto, @Req() req: any): Promise<number> {
-      console.log(req.user.userId);
       return this.postFeedbackService.postFeedback(dto, req);
+      
+    }
+
+    
+    @Post(':id/message')
+    @Roles(Role.ADMINISTRADOR, Role.MODERADOR, Role.COMUM)
+    @ApiProperty({description: 'Envio de mensagens dentro de um feedback'})
+    @ApiParam({ name: 'id', description: 'ID do feedback', type: Number })
+    async postMessageFeedback(@Param('id') feedbackId: number, @Body() body: any, @Req() req: any): Promise<PostMessageFeedbackOutputDto> {
+      const { content } = body;
+      return this.postMessageFeedbackService.postMessageFeedback(feedbackId, content, req)
       
     }
 
