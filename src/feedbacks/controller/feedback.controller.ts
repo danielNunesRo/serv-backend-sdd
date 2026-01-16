@@ -12,6 +12,8 @@ import { GetMessageFeedbackService } from "../services/getMessageFeedback/servic
 import { GetMessageFeedbackOutputDto } from "../services/getMessageFeedback/dto/getMessageFeedbackOutput.dto";
 import { PostMessageFeedbackService } from "../services/postMessageFeedback/service/postMessageFeedback.service";
 import { PostMessageFeedbackOutputDto } from "../services/postMessageFeedback/dto/postMessageFeedbackOutput.dto";
+import { GetAllFeedbacksService } from "../services/getFeedbacks/service/getFeedbacks.service";
+import { GetAllMessagesFeedbackService } from "../services/getAllMessageFeedback/service/getAllMessageFeedback.service";
 
 @ApiTags('feedbacks')
 @UseGuards(JwtAuthGuard,RolesGuard) 
@@ -21,9 +23,24 @@ export class FeedbackController {
      constructor(private readonly postFeedbackService: PostFeedbackService, 
                 private readonly getUsersFeedbackService: GetUsersFeedbackService,
                 private readonly getMessageFeedbackService: GetMessageFeedbackService,
-                private readonly postMessageFeedbackService: PostMessageFeedbackService) {}
+                private readonly postMessageFeedbackService: PostMessageFeedbackService,
+                private readonly getFeedbacks: GetAllFeedbacksService,
+                private readonly getAllMessages: GetAllMessagesFeedbackService) {}
 
-    
+    @Get('/admin') 
+    @Roles(Role.ADMINISTRADOR, Role.MODERADOR)
+    @ApiProperty({description: 'Recupera todos os feedbacks do site'})
+    async getAllFeedbacks() {
+      return await this.getFeedbacks.getAllFeedbacks();
+    }
+
+    @Get('/admin/messages/:id') 
+    @Roles(Role.ADMINISTRADOR, Role.MODERADOR)
+    @ApiProperty({description: 'Recupera todas mensagens de um unico feedback'})
+    async getAllMessagesFeedbacks(@Param('id') feedbackId: number) {
+      return await this.getAllMessages.getAllMessageFeedback(feedbackId);
+    }
+
     
     @Get('/:id/messages') 
     @Roles(Role.ADMINISTRADOR, Role.MODERADOR, Role.COMUM)

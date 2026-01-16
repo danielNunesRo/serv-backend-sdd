@@ -9,6 +9,10 @@ import { GetMessageFeedbackService } from './getMessageFeedback/service/getMessa
 import { GetMessageFeedbackRepository } from './getMessageFeedback/repository/getMessageFeedback.repository';
 import { PostMessageFeedbackService } from './postMessageFeedback/service/postMessageFeedback.service';
 import { PostMessageFeedbackRepository } from './postMessageFeedback/repositories/postMessageFeedback.repository';
+import { GetFeedbackRepository } from './getFeedbacks/repositories/getFeedbacks.repository';
+import { GetAllFeedbacksService } from './getFeedbacks/service/getFeedbacks.service';
+import { GetAllMessagesFeedbackService } from './getAllMessageFeedback/service/getAllMessageFeedback.service';
+import { GetAllMessageFeedbackRepository } from './getAllMessageFeedback/repositories/getAllMessageFeedback.repository';
 
 @Module({
     imports: [DatabaseModule],
@@ -20,6 +24,10 @@ import { PostMessageFeedbackRepository } from './postMessageFeedback/repositorie
         GetUsersFeedbackService, 
         GetUsersFeedbackRepository,
         GetMessageFeedbackService,
-        GetMessageFeedbackRepository]
+        GetMessageFeedbackRepository,
+        GetFeedbackRepository,
+        GetAllFeedbacksService,
+        GetAllMessagesFeedbackService,
+        GetAllMessageFeedbackRepository]
 })
 export class FeedbacksServicesModule {}
