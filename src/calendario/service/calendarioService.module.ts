@@ -5,6 +5,8 @@ import { PostEventRepository } from './postEvent/repositories/postEvent.reposito
 import { CalendarioController } from '../controller/calendario.controller';
 import { GetEventsService } from './getEvents/service/getEvents.service';
 import { GetEventsRepository } from './getEvents/repositories/getEvents.repository';
+import { DeleteEventService } from './deleteEvent/service/deleteEvent.service';
+import { DeleteEventRepository } from './deleteEvent/repositories/deleteEvent.repository';
 
 @Module({
     imports: [DatabaseModule],
@@ -12,6 +14,8 @@ import { GetEventsRepository } from './getEvents/repositories/getEvents.reposito
     providers: [PostEventService, 
         PostEventRepository,
         GetEventsService,
-        GetEventsRepository]
+        GetEventsRepository,
+        DeleteEventService,
+        DeleteEventRepository]
 })
 export class CalendarioServiceModule {}
