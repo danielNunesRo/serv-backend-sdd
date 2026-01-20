@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { FeedbacksModule } from './feedbacks/feedbacks.module';
 import { CalendarioModule } from './calendario/calendario.module';
+import { AveragesModule } from './averages/averages.module';
 
 
 @Module({
@@ -13,7 +14,8 @@ import { CalendarioModule } from './calendario/calendario.module';
     DatabaseModule,
     AuthModule,
     FeedbacksModule,
-    CalendarioModule],
+    CalendarioModule,
+    AveragesModule],
   controllers: [],
   providers: [],
 })
