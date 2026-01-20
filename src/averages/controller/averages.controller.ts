@@ -6,7 +6,7 @@ import { PostAverageService } from "../services/postAverages/service/postAverage
 import { PostAverageInputDto } from "../services/postAverages/dto/postAverageInput.dto";
 import { PostAverageOutputDto } from "../services/postAverages/dto/postAverageOutput.dto";
 
-@ApiTags('calendario')
+@ApiTags('averages')
 @UseGuards(JwtAuthGuard,RolesGuard) 
 @Controller('averages')
 export class AverageController {
