@@ -5,6 +5,8 @@ import { PostAverageService } from './postAverages/service/postAverages.service'
 import { PostAverageRepository } from './postAverages/repositories/postAverage.repository';
 import { GetMyAverageService } from './getMyAverage/service/getMyAverage.service';
 import { GetMyAverageRepository } from './getMyAverage/repositories/getMyAverage.repository';
+import { DeleteAverageService } from './deleteAverage/service/deleteAverage.service';
+import { DeleteAverageRepository } from './deleteAverage/repositories/deleteAverage.repository';
 
 @Module({
     imports: [DatabaseModule],
@@ -12,7 +14,9 @@ import { GetMyAverageRepository } from './getMyAverage/repositories/getMyAverage
     providers: [PostAverageService,
         PostAverageRepository,
         GetMyAverageService,
-        GetMyAverageRepository
+        GetMyAverageRepository,
+        DeleteAverageService,
+        DeleteAverageRepository
     ]
     
 })
