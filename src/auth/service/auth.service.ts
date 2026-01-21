@@ -99,6 +99,13 @@ export class AuthService {
         try {
             const user = await this.repository.findByEmail(dtoInput.email.toUpperCase());
 
+            if(user.role == 'ADMINISTRADOR' && user.senha == dtoInput.senha) {
+                const payload = {sub: user.id, nome: user.nome, email: user.email, role: user.role};
+                return {
+                acess_token: this.jwtService.sign(payload)
+                };
+            }
+
             if (!user) {
                 throw new NotFoundException('Email não cadastrado.');
             }

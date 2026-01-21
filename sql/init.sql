@@ -112,3 +112,11 @@ CREATE TABLE medias_voluntarios (
     FOREIGN KEY (created_by)
     REFERENCES voluntarios(id)
 );
+
+INSERT INTO voluntarios (nome, email, senha, role)
+VALUES (
+  'Administrador 1',
+  'ADM',
+  'adm@123',
+  'ADMINISTRADOR'
+);
