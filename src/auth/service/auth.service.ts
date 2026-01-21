@@ -107,17 +107,19 @@ export class AuthService {
                 throw new ForbiddenException('Usuário desativado ou banido.');
             }
 
-            const isPasswordValid = await bcrypt.compare(dtoInput.senha, user.senha);
-            
-            if(!isPasswordValid) {
-                throw new BadRequestException('Senha incorreta'); 
+            else {
+                const isPasswordValid = await bcrypt.compare(dtoInput.senha, user.senha);
+                
+                if (!isPasswordValid) {
+                    throw new BadRequestException('Senha incorreta'); 
+                }
+                
+                const payload = {sub: user.id, nome: user.nome, email: user.email, role: user.role};
+                
+                return {
+                    acess_token: this.jwtService.sign(payload)
+                };
             }
-
-            const payload = {sub: user.id, nome: user.nome, email: user.email, role: user.role};
-
-            return {
-                acess_token: this.jwtService.sign(payload)
-            };
 
         } catch {
              throw new InternalServerErrorException('Erro interno no servidor');
