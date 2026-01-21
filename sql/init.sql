@@ -13,7 +13,6 @@ CREATE TABLE voluntarios (
   ativo BOOLEAN NOT NULL DEFAULT true,
   data_criacao TIMESTAMP NOT NULL DEFAULT NOW()
 );
-
            
  CREATE TABLE voluntarios_auditoria (
   id SERIAL PRIMARY KEY,
@@ -115,8 +114,9 @@ CREATE TABLE medias_voluntarios (
 
 INSERT INTO voluntarios (nome, email, senha, role)
 VALUES (
-  'Administrador 1',
+  'Administrador',
   'ADM',
   'adm@123',
   'ADMINISTRADOR'
 );
+

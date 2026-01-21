@@ -20,4 +20,5 @@ export class FindByEmailOutputDto {
 
   @ApiProperty({ example: true })
   ativo: boolean;
+
 }
